@@ -23,7 +23,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * 使用jnuit5的，不用把类和方法定义为publc的
- * 没有@before，区分为@BeforeAll 和 @BeforeEach
+ * 没有@before，区分为@BeforeAll (只执行一次)和 @BeforeEach (每个方法之前都会执行一次)
+ * @After 同理
  */
 @SpringBootTest
 class MockmvcTestTest {
