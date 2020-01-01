@@ -1,6 +1,6 @@
-package com.yxycoding.demo.myannotiation;
+package com.yxycoding.demo.myannotiation.normal;
 
-import org.springframework.util.ClassUtils;
+import com.yxycoding.demo.myannotiation.MyAnnotationOne;
 
 import java.lang.reflect.Method;
 
@@ -8,7 +8,7 @@ public class MyTestAnnotation {
     public static void main(String[] args){
         try {
             //获取Student的Class对象
-            Class stuClass = Class.forName("com.yxycoding.demo.myannotiation.MyStudent");
+            Class stuClass = Class.forName("com.yxycoding.demo.myannotiation.normal.MyStudent");
 
 
             //说明一下，这里形参不能写成Integer.class，应写为int.class

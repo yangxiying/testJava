@@ -1,9 +1,13 @@
-package com.yxycoding.demo.myannotiation;
+package com.yxycoding.demo.myannotiation.aop;
 
+import com.yxycoding.demo.myannotiation.MyAnnotationOne;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 @Slf4j
-public class MyStudent {
+@Service
+public class MyStudentTwo {
 
     //使用注解，如果无默认值的，必须赋值：有默认值的可以重新赋值
     @MyAnnotationOne(name = "yxy coding", arr = {23, 11, 23})
