@@ -29,10 +29,11 @@ public class PatternTest {
             System.out.println(findMatcher.group(3));//结果为： )]}
 
             testStr = testStr.replace(findMatcher.group(0), "sumtest  ");
+            System.out.println("-------------------------------------");
         }
 
         System.out.println(testStr);
-        System.out.println("==============================================");
+        System.out.println("==1111============================================");
 
 
         testStr = "this is a test. {[sum(a,b,c)]} is ?  the other test  {[sum(q,w,e,r,t)]} is ? ";
@@ -45,12 +46,40 @@ public class PatternTest {
             System.out.println(findMatcher.group(1));//  结果为：{[sum(
             System.out.println(findMatcher.group(2));// 结果为：a,b,c)]} is ?  the other test  {[sum(q,w,e,r,t
             System.out.println(findMatcher.group(3));//结果为： )]}
-
-            testStr = testStr.replace(findMatcher.group(0), "sumtest  ");
+            System.out.println("--2222--11---------------------------------");
+//            testStr = testStr.replace(findMatcher.group(0), "sumtest  ");
         }
 
-        System.out.println(testStr);
-        System.out.println("==============================================");
+//        System.out.println(testStr);
+//         输出为：
+//        {[sum(a,b,c)]} is ?  the other test  {[sum(q,w,e,r,t)]}
+//        {[sum(
+//                a,b,c)]} is ?  the other test  {[sum(q,w,e,r,t
+//        )]}
+
+        // 加问号 ？ 丰贪婪匹配
+        pattern = Pattern.compile("(\\{\\[sum\\()(.*?)(\\)\\]\\})");
+        findMatcher = pattern.matcher(testStr);
+        while (findMatcher.find()) {
+            System.out.println(findMatcher.group(0));//  结果为：{[sum(a,b,c)]} is ?  the other test  {[sum(q,w,e,r,t)]}
+            System.out.println(findMatcher.group(1));//  结果为：{[sum(
+            System.out.println(findMatcher.group(2));// 结果为：a,b,c)]} is ?  the other test  {[sum(q,w,e,r,t
+            System.out.println(findMatcher.group(3));//结果为： )]}
+            System.out.println("--2222--22---------------------------------");
+//            testStr = testStr.replace(findMatcher.group(0), "sumtest  ");
+        }
+//      输出为：
+//        {[sum(a,b,c)]}
+//        {[sum(
+//                a,b,c
+//        )]}
+//        --2222--22---------------------------------
+//                {[sum(q,w,e,r,t)]}
+//        {[sum(
+//                q,w,e,r,t
+//        )]}
+
+        System.out.println("==2222============================================");
 
 
         testStr = "this is a test. {[sum(-3.09,4,5.05)]} is ?  the other test  {[sum(11,22,33,44)]} is ?  the other test  {[sum(111)]} is ?";
@@ -69,12 +98,12 @@ public class PatternTest {
         boolean matches1 = findMatcher.lookingAt();
         System.out.println(matches1);
         while (findMatcher.find()) {
-            System.out.println(findMatcher.group(0));//  结果为：{[sum(a,b,c)]} is ?  the other test  {[sum(q,w,e,r,t)]}
-            System.out.println(findMatcher.group(1));//  结果为：{[sum(
-            System.out.println(findMatcher.group(2));// 结果为：a,b,c)]} is ?  the other test  {[sum(q,w,e,r,t
-            System.out.println(findMatcher.group(3));//结果为： )]}
+            System.out.println(findMatcher.group(0));//
+            System.out.println(findMatcher.group(1));//
+            System.out.println(findMatcher.group(2));//
+            System.out.println(findMatcher.group(3));//
 
-            testStr = testStr.replace(findMatcher.group(0), "sumtest  ");
+//            testStr = testStr.replace(findMatcher.group(0), "sumtest  ");
             System.out.println("-------------------------------------");
         }
 
@@ -94,7 +123,23 @@ public class PatternTest {
         //111
 
         System.out.println(testStr);
-        System.out.println("==============================================");
+        System.out.println("------------------------------------------");
+        System.out.println("------------------------------------------非贪婪匹配");
+        pattern = Pattern.compile("(\\{\\[sum\\()(\\-?\\d+?\\.?\\d*,*)+(\\)\\]\\})");
+        findMatcher = pattern.matcher(testStr);
+
+        while (findMatcher.find()) {
+            System.out.println(findMatcher.group(0));//  结果为：
+            System.out.println(findMatcher.group(1));//  结果为：
+            System.out.println(findMatcher.group(2));// 结果为：
+            System.out.println(findMatcher.group(3));//结果为：
+
+            testStr = testStr.replace(findMatcher.group(0), "sumtest  ");
+            System.out.println("-------------------------------------");
+        }
+
+
+        System.out.println("===333===========================================");
 
 
     }
