@@ -1,0 +1,10 @@
+server:
+  port: 8067
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: false # 必须设为 false，表明这本身是一个注册中心，是被用来注册的
+    fetch-registry: false  # 必须设为 false，表明这本身是一个注册中心，是被用来注册的
+    service-url:
+      default-zone: http://${eureka.instance.hostname}:${server.port}/eureka/

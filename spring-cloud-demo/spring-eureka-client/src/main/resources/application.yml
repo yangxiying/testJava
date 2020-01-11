@@ -1,0 +1,12 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    name: one-client
+
+# 注意，客户端只能写成defaultZone 不能写成 default-Zone
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8067/eureka/
