@@ -1,0 +1,14 @@
+version: '3'
+services:
+    mysql:
+        build: ./mysql
+        environment:
+            MYSQL_DATABASE: mysql-demo-docker
+            MYSQL_ROOT_PASSWORD: 123456
+            TZ: Asia/Shanghai
+        ports: 
+            - "3310:3306"
+        volumes:
+            - ./mysql_data:/var/lib/mysql
+        restart:
+            always
