@@ -66,3 +66,64 @@ ONE-CLIENT	n/a (2)	(2)	UP (2) - host.docker.internal:one-client:8088 , host.dock
 
 `http://localhost:9090/one/demo/hi?name=yxy`
 
+
+## 链路跟踪
+
+使用 zipkim 。部署zipkim。
+
+- 通过 `docker` 来部署
+`docker run -d -p 9411:9411 openzipkin/zipkin`
+ 这个默认数据存在内存中，使用是h2。测试时可以使用，重启之后内存中数据丢失
+ 
+ - 存放在 `mysql` 数据库中
+建表语句在官网git上查看：
+`https://github.com/openzipkin/zipkin/blob/master/zipkin-storage/mysql-v1/src/main/resources/mysql.sql`
+
+```
+docker run -d  -p 9411:9411 -e MYSQL_USER=root -e MYSQL_PASS=123456 -e MYSQL_HOST=host.docker.internal -e STORAGE_TYPE=mysql -e MYSQL_DB=zipkim-demo -e MYSQL_TCP_PORT=3308 openzipkin/zipkin
+```
+- docker-compose 的配置
+```yaml
+version: '2'
+
+services: 
+    zipkin:
+        image: openzipkin/zipkin
+        container_name: zipkin
+        environment: 
+            - STORAGE_TYPE=mysql
+            - MYSQL_USER=root
+            - MYSQL_PASS=123456
+            - MYSQL_DB=zipkim-demo
+            - MYSQL_HOST=host.docker.internal
+            - MYSQL_TCP_PORT=3308
+            - MYSQL_PASSWORD_CHARACTER_ENCODING=UTF-8
+            - MYSQL_CHARACTER_ENCODING=UTF-8
+        ports:
+            - 9411:9411
+```
+
+
+在相应的服务的配置中配置上zipkim
+
+- 添加依赖jar
+```xml
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
+        </dependency>
+```
+
+- 添加配置
+
+```yaml
+spring:
+  zipkin:
+    base-url: http://localhost:9411/
+  sleuth:
+    sampler:
+      probability: 1.0 #请求的采样率，在测试时为了方便查看可以改为1表示所有请求都记录，但在生产环境中还是建议改为0.1，否则数量太多影响性能
+```
+
+访问 地址，查看调用链
+`http://127.0.0.1:9411/zipkin/`

@@ -4,8 +4,10 @@ server:
 spring:
   application:
     name: one-feign
+  zipkin:
+    base-url: http://localhost:9411/
 
-# ×¢Òâ£¬¿Í»§¶ËÖ»ÄÜÐ´³ÉdefaultZone ²»ÄÜÐ´³É default-Zone
+# ×¢ï¿½â£¬ï¿½Í»ï¿½ï¿½ï¿½Ö»ï¿½ï¿½Ð´ï¿½ï¿½defaultZone ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ default-Zone
 eureka:
   client:
     service-url:

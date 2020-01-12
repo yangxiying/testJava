@@ -5,23 +5,23 @@ spring:
   application:
     name: one-zuul
 
-# ×¢Òâ£¬¿Í»§¶ËÖ»ÄÜÐ´³ÉdefaultZone ²»ÄÜÐ´³É default-Zone
+# æ³¨æ„ï¼Œå®¢æˆ·ç«¯åªèƒ½å†™æˆdefaultZone ä¸èƒ½å†™æˆ default-Zone
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8067/eureka/
 zuul:
   routes:
-    #±êÊ¶Äã·þÎñµÄÃû×Ö£¬ÕâÀï¿ÉÒÔ×Ô¼º¶¨Òå£¬Ò»°ã·½±ãºÍ¹æ·¶À´½²»¹ÊÇ¸ú×Ô¼º·þÎñµÄÃû×ÖÒ»Ñù
+    #æ ‡è¯†ä½ æœåŠ¡çš„åå­—ï¼Œè¿™é‡Œå¯ä»¥è‡ªå·±å®šä¹‰ï¼Œä¸€èˆ¬æ–¹ä¾¿å’Œè§„èŒƒæ¥è®²è¿˜æ˜¯è·Ÿè‡ªå·±æœåŠ¡çš„åå­—ä¸€æ ·
     one-client:
-      #·þÎñÓ³ÉäµÄÂ·¾¶£¬Í¨¹ýÕâÂ·¾¶¾Í¿ÉÒÔ´ÓÍâ²¿·ÃÎÊÄãµÄ·þÎñÁË£¬Ä¿µÄÊÇÎªÁË²»±¬Â¶Äã»úÆ÷µÄIP£¬ÃæÏò·þÎñµÄÂ·ÓÉÁË£¬¸øÄãÑ¡Ò»¸ö¿ÉÓÃµÄ³öÀ´£¬
-      #ÕâÀïzuulÊÇ×Ô¶¯ÒÀÀµhystrix£¬ribbonµÄ£¬²»ÊÇÃæÏòµ¥»ú
+      #æœåŠ¡æ˜ å°„çš„è·¯å¾„ï¼Œé€šè¿‡è¿™è·¯å¾„å°±å¯ä»¥ä»Žå¤–éƒ¨è®¿é—®ä½ çš„æœåŠ¡äº†ï¼Œç›®çš„æ˜¯ä¸ºäº†ä¸çˆ†éœ²ä½ æœºå™¨çš„IPï¼Œé¢å‘æœåŠ¡çš„è·¯ç”±äº†ï¼Œç»™ä½ é€‰ä¸€ä¸ªå¯ç”¨çš„å‡ºæ¥ï¼Œ
+      #è¿™é‡Œzuulæ˜¯è‡ªåŠ¨ä¾èµ–hystrixï¼Œribbonçš„ï¼Œä¸æ˜¯é¢å‘å•æœº
       path: /one/**
-      #ÕâÀïÒ»¶¨ÒªÊÇÄãEureka×¢²áÖÐÐÄµÄ·þÎñµÄÃû³Æ£¬Ö®ËùÒÔÕâÀïÅäÖÃserviceIdÒòÎª¸úeureka½áºÏÁË£¬Èç¹ûµ¥¶ÀÊ¹ÓÃzuul,ÄÇÃ´¾Í±ØÐëÐ´×Ô¼º»úÆ÷µÄIPÁË£¬
-      #Èçurl:http://localhost:8080/  ÕâÑùµÄ²»ºÃ¾ÍÊÇÐ´ËÀIPÁË£¬ÍòÒ»ÕâIP¹ÒÁË£¬Õâ¸ß¿ÉÓÃÐÔ£¬·þÎñ×¢²áÄÇÌ×¶«Î÷¾ÍÓÃ²»ÆðÀ´ÁË
+      #è¿™é‡Œä¸€å®šè¦æ˜¯ä½ Eurekaæ³¨å†Œä¸­å¿ƒçš„æœåŠ¡çš„åç§°ï¼Œä¹‹æ‰€ä»¥è¿™é‡Œé…ç½®serviceIdå› ä¸ºè·Ÿeurekaç»“åˆäº†ï¼Œå¦‚æžœå•ç‹¬ä½¿ç”¨zuul,é‚£ä¹ˆå°±å¿…é¡»å†™è‡ªå·±æœºå™¨çš„IPäº†ï¼Œ
+      #å¦‚url:http://localhost:8080/  è¿™æ ·çš„ä¸å¥½å°±æ˜¯å†™æ­»IPäº†ï¼Œä¸‡ä¸€è¿™IPæŒ‚äº†ï¼Œè¿™é«˜å¯ç”¨æ€§ï¼ŒæœåŠ¡æ³¨å†Œé‚£å¥—ä¸œè¥¿å°±ç”¨ä¸èµ·æ¥äº†
       serviceId: one-client
 
-      # ÈçÉÏÅäÖÃÖ®ºó ÈýÖÖ·½Ê½¶¼¿ÉÒÔ·ÃÎÊ
-      # 1.Ô­Â·¾¶ http://localhost:8088/demo/hi?name=yxy
-      # 2.zuulÎ´¾­¹ýpathµÄ£ºhttp://localhost:9090/one-client/demo/hi?name=yxy
-      # 3.zuul¾­¹ýpathµÄ£ºhttp://localhost:9090/one/demo/hi?name=yxy
+      # å¦‚ä¸Šé…ç½®ä¹‹åŽ ä¸‰ç§æ–¹å¼éƒ½å¯ä»¥è®¿é—®
+      # 1.åŽŸè·¯å¾„ http://localhost:8088/demo/hi?name=yxy
+      # 2.zuulæœªç»è¿‡pathçš„ï¼šhttp://localhost:9090/one-client/demo/hi?name=yxy
+      # 3.zuulç»è¿‡pathçš„ï¼šhttp://localhost:9090/one/demo/hi?name=yxy
