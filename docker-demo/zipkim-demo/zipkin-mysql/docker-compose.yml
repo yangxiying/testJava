@@ -1,0 +1,17 @@
+version: '2'
+
+services: 
+    zipkin:
+        image: openzipkin/zipkin
+        container_name: zipkin
+        environment: 
+            - STORAGE_TYPE=mysql
+            - MYSQL_USER=root
+            - MYSQL_PASS=123456
+            - MYSQL_DB=zipkim-demo
+            - MYSQL_HOST=host.docker.internal
+            - MYSQL_TCP_PORT=3308
+            - MYSQL_PASSWORD_CHARACTER_ENCODING=UTF-8
+            - MYSQL_CHARACTER_ENCODING=UTF-8
+        ports:
+            - 9411:9411
