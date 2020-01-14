@@ -1,0 +1,26 @@
+version: '3'
+
+
+services: 
+    h1:
+        image: haproxy
+        container_name: h1
+        volumes: 
+            - ./haproxy:/usr/local/etc/haproxy
+        ports:
+            - "4001:8888"
+            - "4002:3306"
+        privileged: true
+        # network_mode: "net1"
+
+
+        networks:
+            net1: 
+                ipv4_address: 172.18.0.7
+networks:
+    net1: 
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.18.0.0/24

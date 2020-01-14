@@ -1,0 +1,13 @@
+version: '2.2'
+
+# 参考https://blog.csdn.net/A_Story_Donkey/article/details/84106755
+# https://www.cnblogs.com/jianxuanbing/p/9410800.html
+services:
+    es7:
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.5.1
+        container_name: es7
+        environment:
+            - discovery.type=single_node
+        ports:
+            - 9200:9200
+            - 9300:9300

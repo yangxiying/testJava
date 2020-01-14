@@ -1,0 +1,88 @@
+version: '3'
+
+services: 
+    pxc_v1: 
+        image: pxc
+        container_name: pxc_v1
+        environment: 
+            MYSQL_ROOT_PASSWORD: 123456
+            CLUSTER_NAME: PXC
+            XTRABACKUP_PASSWORD: 123456
+        volumes: 
+            - mysql_v1:/var/lib/mysql
+        networks:
+            my_net: 
+                ipv4_address: 172.19.0.2
+        ports: 
+            - "13312:3306"
+        privileged: true
+        # tty: true
+    pxc_v2: 
+        image: pxc
+        container_name: pxc_v2
+        environment: 
+            MYSQL_ROOT_PASSWORD: 123456
+            CLUSTER_NAME: PXC
+            XTRABACKUP_PASSWORD: 123456
+            CLUSTER_JOIN: pxc_v1
+        volumes: 
+            - mysql_v2:/var/lib/mysql
+        networks:
+            my_net: 
+                ipv4_address: 172.19.0.3
+        ports: 
+            - "13313:3306"
+        privileged: true
+        depends_on:
+            - pxc_v1
+        # tty: true
+    pxc_v3: 
+        image: pxc
+        container_name: pxc_v3
+        environment: 
+            MYSQL_ROOT_PASSWORD: 123456
+            CLUSTER_NAME: PXC
+            XTRABACKUP_PASSWORD: 123456
+            CLUSTER_JOIN: pxc_v1
+        volumes: 
+            - mysql_v3:/var/lib/mysql
+        networks:
+            my_net: 
+                ipv4_address: 172.19.0.4
+        ports: 
+            - "13314:3306"
+        privileged: true
+        depends_on:
+            - pxc_v1
+            - pxc_v2
+    h1:
+        image: haproxy
+        container_name: h1
+        volumes: 
+            - ./haproxy:/usr/local/etc/haproxy
+        ports:
+            - "4001:8888"
+            - "4002:3306"
+        privileged: true
+        depends_on:
+            - pxc_v1
+            - pxc_v2
+            - pxc_v3
+        networks:
+            my_net: 
+                ipv4_address: 172.19.0.7
+
+
+
+networks:
+    my_net: 
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.19.0.0/24
+
+volumes:
+    mysql_v1:
+    mysql_v2:
+    mysql_v3:
