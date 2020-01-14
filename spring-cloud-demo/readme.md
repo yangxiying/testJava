@@ -1,6 +1,6 @@
 > 基于spring-boot 2.2.2 版本
 
-# 注册中心 eureka
+# 1. 注册中心 eureka
 
 > 使用 `spring-cloud-starter-netflix-eureka-server` 生成一个注册中心
 
@@ -17,21 +17,21 @@ eureka:
       default-zone: http://${eureka.instance.hostname}:${server.port}/eureka/
 ```
 
-## 服务注册
+## 1.1 服务注册 eureka
 
 > 服务注册中 2.0版本中区分了一个 `spring-cloud-starter-netflix-eureka-client` 使用这个client时需要再引入 `spring-boot-starter-web`
 
 > 也可以直接还是使用 `spring-cloud-starter-netflix-eureka-server`
 
-## 服务调用
+## 1.2 服务调用 ribbon feign
 
 > 服务调用可以通过 `ribbon` 、 `feign` 。feign中默认包含了 ribbon。    
 一般开发引入 feign 就可以
 
 
-# 网关 zuul
+# 2. 网关 zuul
 
-## 简单的网关配置如下：
+## 2.1 简单的网关配置如下：
 
 ```yaml
 zuul:
@@ -51,7 +51,7 @@ zuul:
       # 3.zuul经过path的：http://localhost:9090/one/demo/hi?name=yxy
 ```
 
-## 测试负载
+## 2.2 测试负载
 
 - 把 one-client 打包，通过命令启动多个
 `java -jar -Dserver.port=8078 spring-eureka-client-0.0.1-SNAPSHOT.jar`
@@ -67,9 +67,9 @@ ONE-CLIENT	n/a (2)	(2)	UP (2) - host.docker.internal:one-client:8088 , host.dock
 `http://localhost:9090/one/demo/hi?name=yxy`
 
 
-## 链路跟踪
+# 3.链路跟踪
 
-使用 zipkim 。部署zipkim。
+## 3.1 使用 zipkim 。部署zipkim。
 
 - 通过 `docker` 来部署
 `docker run -d -p 9411:9411 openzipkin/zipkin`
@@ -127,3 +127,25 @@ spring:
 
 访问 地址，查看调用链
 `http://127.0.0.1:9411/zipkin/`
+
+
+# elasticsearch
+
+https://blog.csdn.net/chen_2890/article/details/83895646
+
+# session
+
+
+# 配置中心
+
+# 监权
+
+# 消息总线
+
+
+
+# 。。。
+
+
+
+
