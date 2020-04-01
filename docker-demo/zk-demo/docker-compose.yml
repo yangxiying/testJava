@@ -1,0 +1,61 @@
+version: '3.1'
+
+services: 
+    zk1:
+        image: zookeeper:3.6
+        restart: always
+        privileged: true
+        hostname: zk1
+        container_name: zk1
+        ports: 
+            - 2181:2181
+        volumes: 
+            - ./node4/data:/data
+            - ./node4/datalog:/datalog
+        environment: 
+            ZOO_MY_ID: 4
+            ZOO_SERVERS: server.4=0.0.0.0:2888:3888;2181 server.5=zk2:2888:3888;2181 server.6=zk3:2888:3888;2181
+        networks: 
+            default:
+                ipv4_address: 172.18.0.14
+    zk2:
+        image: zookeeper:3.6
+        restart: always
+        privileged: true
+        hostname: zk2
+        container_name: zk2
+        ports: 
+            - 2182:2181
+        volumes: 
+            - ./node5/data:/data
+            - ./node5/datalog:/datalog
+        environment: 
+            ZOO_MY_ID: 5
+            ZOO_SERVERS: server.4=zk1:2888:3888;2181 server.5=0.0.0.0:2888:3888;2181 server.6=zk3:2888:3888;2181
+        networks: 
+            default:
+                ipv4_address: 172.18.0.15
+
+    zk3:
+        image: zookeeper:3.6
+        restart: always
+        privileged: true
+        hostname: zk3
+        container_name: zk3
+        ports: 
+            - 2183:2181
+        volumes: 
+            - ./node6/data:/data
+            - ./node6/datalog:/datalog
+        environment: 
+            ZOO_MY_ID: 6
+            ZOO_SERVERS: server.4=zk1:2888:3888;2181 server.5=zk2:2888:3888;2181 server.6=0.0.0.0:2888:3888;2181
+        networks: 
+            default:
+                ipv4_address: 172.18.0.16
+
+
+networks: 
+    default:
+        external: 
+            name: my_net1
