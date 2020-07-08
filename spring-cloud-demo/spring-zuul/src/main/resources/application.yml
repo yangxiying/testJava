@@ -12,16 +12,22 @@ eureka:
       defaultZone: http://localhost:8067/eureka/
 zuul:
   routes:
-    #标识你服务的名字，这里可以自己定义，一般方便和规范来讲还是跟自己服务的名字一样
-    one-client:
+    #标识你服务的名字，这里可以自己定义，一般方便和规范来讲还是跟自己服务的名字一样 one-client .为了测试，写为one-client-yxy
+    one-client-yxy:
       #服务映射的路径，通过这路径就可以从外部访问你的服务了，目的是为了不爆露你机器的IP，面向服务的路由了，给你选一个可用的出来，
       #这里zuul是自动依赖hystrix，ribbon的，不是面向单机
       path: /one/**
       #这里一定要是你Eureka注册中心的服务的名称，之所以这里配置serviceId因为跟eureka结合了，如果单独使用zuul,那么就必须写自己机器的IP了，
       #如url:http://localhost:8080/  这样的不好就是写死IP了，万一这IP挂了，这高可用性，服务注册那套东西就用不起来了
       serviceId: one-client
+      #这里的stripPrefix默认为true，也就是所有/demo/xxxx的请求转发时，去除/demo。
+      # 例：http://localhost:9090/one/demo/hi?name=yxy 的请示路由之后为：http://localhost:8088/demo/hi?name=yxy
+      #   如果设为false，侧路由之后为：http://localhost:8088/one/demo/hi?name=yxy
+      stripPrefie: true
 
       # 如上配置之后 三种方式都可以访问
       # 1.原路径 http://localhost:8088/demo/hi?name=yxy
       # 2.zuul未经过path的：http://localhost:9090/one-client/demo/hi?name=yxy
       # 3.zuul经过path的：http://localhost:9090/one/demo/hi?name=yxy
+  # 是否允许通过服务名称来访问，也就是上面的第2种方式是否可以访问，默认是true
+  ignore-local-service: true

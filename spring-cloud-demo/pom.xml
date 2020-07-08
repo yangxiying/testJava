@@ -9,4 +9,13 @@
     <version>1.0-SNAPSHOT</version>
 
 
+    <modules>
+        <module>spring-eureka-client</module>
+        <module>spring-eureka-server</module>
+        <module>spring-eureka-fegin</module>
+        <module>spring-eureka-ribbon</module>
+        <module>spring-stream-kafka</module>
+        <module>spring-zuul</module>
+        <module>spring-es</module>
+    </modules>
 </project>
