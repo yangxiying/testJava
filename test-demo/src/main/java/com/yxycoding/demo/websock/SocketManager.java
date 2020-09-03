@@ -31,4 +31,8 @@ public class SocketManager {
         return manager.get(key);
     }
 
+    public static int getConut(){
+        return manager.size();
+    }
+
 }

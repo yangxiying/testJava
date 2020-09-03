@@ -72,6 +72,14 @@ public class TestWebsockController {
         return message;
     }
 
+    //连上之后，前台发一个通知告之连接监听准备好，可以发消息，此时可以发一个系统提示类消息
+    @MessageMapping("/sendIsConntion")
+//    @SendTo("/topic/sendTopic")
+    public void sendIsConntion(String message) {
+        // 也可以采用template方式
+        template.convertAndSend("/topic/sendTopic", "大家晚上好sssssss");
+    }
+
     /**
      * 点对点用户聊天，这边需要注意，由于前端传过来json数据，所以使用@RequestBody
      * 这边需要前端开通var socket = new SockJS(host+'/myUrl' + '?token=4567');   token为指定name
