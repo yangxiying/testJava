@@ -1,5 +1,8 @@
 package com.yxycoding.demo.async;
 
+import com.yxycoding.demo.lombak.DemoService1;
+import com.yxycoding.demo.lombak.DemoService2;
+import com.yxycoding.demo.lombak.DemoServiceBegin;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,6 +16,16 @@ import static org.junit.jupiter.api.Assertions.*;
 class AsyncTestTest {
     @Autowired
     AsyncTest asyncTest;
+
+    @Autowired
+    private DemoServiceBegin demoServiceBegin;
+
+    @Autowired
+    private DemoService1 demoService1;
+
+    @Autowired
+    private DemoService2 demoService2;
+
     @Test
     void test1() throws InterruptedException, ExecutionException {
 

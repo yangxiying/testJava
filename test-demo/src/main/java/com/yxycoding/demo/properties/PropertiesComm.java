@@ -15,6 +15,7 @@ import java.util.List;
 @Slf4j
 public class PropertiesComm {
 
+    //以 ，号分隔的，可以定义为List来接收
     @Value("${per.sss}")
     private List<String> perList;
 
@@ -24,6 +25,7 @@ public class PropertiesComm {
     public void ssss(){
 
         log.info(perstr);
+        log.info(String.valueOf(perList.size()));
     }
 
 }
