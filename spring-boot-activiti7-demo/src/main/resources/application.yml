@@ -1,0 +1,21 @@
+
+spring:
+  datasource:
+    #\u6570\u636E\u6E90\u57FA\u672C\u914D\u7F6E
+    username: root
+    password: 123456
+    url: jdbc:mysql://192.168.3.200:3306/activiti_c7?serverTimezone=Asia/Shanghai&characterEncoding=UTF-8&nullCatalogMeansCurrent=true&useSSL=false&useLegacyDatetimeCode=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+
+  ### activiti数据库的配置
+##表示启动时检查数据库表，不存在则创建
+#  spring.activiti.database-schema-update=true
+#  #表示哪种情况下使用历史表，这里配置为full表示全部记录历史
+#  spring.activiti.history-level=full
+#  #为true表示使用历史表，如果不配置，则工程启动后可以检查数据库
+#  spring.activiti.db-history-used=true
+  activiti:
+    database-schema-update: true
+    history-level: full
+    db-history-used: true
