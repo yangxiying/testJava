@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.2.2.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.yxycoding.demo</groupId>
+	<artifactId>test-demo</artifactId>
+	<version>0.0.1</version>
+	<name>test-demo</name>
+	<description>各种java使用中的 测试 demo等</description>
+
+	<modules>
+		<module>test-demo</module>
+		<module>mockmvc-demo</module>
+		<module>spring-boot-activiti7-demo</module>
+		<module>spring-cloud-demo</module>
+		<module>shejimoshi</module>
+	</modules>
+
+	<properties>
+		<java.version>1.8</java.version>
+		<org.mapstruct.version>1.3.1.Final</org.mapstruct.version>
+
+	</properties>
+
+
+	<dependencies>
+
+	</dependencies>
+
+	<!-- 依赖声明 -->
+	<dependencyManagement>
+
+	</dependencyManagement>
+
+</project>
