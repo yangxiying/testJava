@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.activiti.org/test" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" expressionLanguage="http://www.w3.org/1999/XPath" id="m1598520463370" name="" targetNamespace="http://www.activiti.org/test" typeLanguage="http://www.w3.org/2001/XMLSchema">
-  <process id="leaveProcess" isClosed="false" isExecutable="true" name="请假流程" processType="None">
+  <process id="leaveProcess_1" isClosed="false" isExecutable="true" name="请假流程" processType="None">
     <startEvent activiti:initiator="applyUserId" id="startEvent" name="开始事件"/>
     <userTask activiti:assignee="${jobNumber}" activiti:exclusive="true" id="applyTask" name="员工申请"/>
     <userTask activiti:assignee="${deptJobNumber}" activiti:exclusive="true" id="deptApproveTask" name="部门领导审批"/>
@@ -24,7 +24,7 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="deptApproveTask" id="Shape-deptApproveTask">
-        <omgdc:Bounds height="55.0" width="85.0" x="350.0" y="220.0"/>
+        <omgdc:Bounds height="55.0" width="85.0" x="305.0" y="220.0"/>
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
@@ -37,13 +37,13 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="_2" id="BPMNEdge__2" sourceElement="applyTask" targetElement="deptApproveTask">
         <omgdi:waypoint x="250.0" y="247.5"/>
-        <omgdi:waypoint x="350.0" y="247.5"/>
+        <omgdi:waypoint x="305.0" y="247.5"/>
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="_5" id="BPMNEdge__5" sourceElement="deptApproveTask" targetElement="endEvent">
-        <omgdi:waypoint x="435.0" y="247.5"/>
+        <omgdi:waypoint x="390.0" y="247.5"/>
         <omgdi:waypoint x="495.0" y="246.0"/>
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>

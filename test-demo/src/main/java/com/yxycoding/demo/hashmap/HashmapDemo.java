@@ -41,7 +41,7 @@ public class HashmapDemo {
             return v.equals(aa) ? k : "_";
         });
         manager.remove(search);
-        System.out.println("manager.size()==="+manager.size());
+        System.out.println("manager.size()==="+manager.size()); //manager.size()===1
 
         Map<String,String> hamap = new HashMap<>();
         hamap.put("2","111111");
@@ -55,7 +55,7 @@ public class HashmapDemo {
         hamap.put("1","333333");
         hamap.put("1","444444");
         hamap.put("1","555555");
-        System.out.println("hamap.size()==="+hamap.size());
+        System.out.println("hamap.size()==="+hamap.size()); //hamap.size()===2
 
 
     }

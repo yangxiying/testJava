@@ -6,7 +6,9 @@ package com.yxycoding.demo.rest;/*
 import cn.hutool.http.HttpUtil;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -14,7 +16,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@RequestMapping(value = "/")
 public class restController {
+
+    @GetMapping(value = "sayhe")
+    public String testSay(){
+        return "hello w";
+    }
 
     @PostMapping(value = "posttest", produces = "application/json;charset=utf-8")
     public Object testHi() {

@@ -56,13 +56,13 @@ public class LeaveController {
 
     /**
      * 开始流程
+     *
      * @param jobNumber
-     * @author
-     * @return
-     * http://127.0.0.1:8080/leave/start?jobNumber=A1001
+     * @return http://127.0.0.1:8080/leave/start?jobNumber=A1001
      * 这里我们假设员工的工号为A1001进行发起了请假申请，访问地址成功的话，返回一个流程实例ID
+     * @author
      */
-    @RequestMapping(value="/start")
+    @RequestMapping(value = "/start")
     public String start(String jobNumber) {
         //设置流程的发起者
         Authentication.setAuthenticatedUserId(jobNumber);
@@ -75,30 +75,30 @@ public class LeaveController {
         System.out.println("开启请假流程...");
 
         // 设置流程参数，开启流程
-        Map<String,Object> variables = new HashMap<String,Object>();
+        Map<String, Object> variables = new HashMap<String, Object>();
         //设置参数，这里的key就是上面配置的assignee的${jobNumber}，会进行赋值。
-        variables.put("jobNumber",jobNumber);
+        variables.put("jobNumber", jobNumber);
 
         //使用流程定义的key启动流程实例，key对应helloworld.bpmn文件中id的属性值，使用key值启动，默认是按照最新版本的流程定义启动
         // 流程开启成功之后，获取到ProcessInstance信息。
         ProcessInstance instance = runtimeService.startProcessInstanceByKey(instanceKey, variables);
         //busiKey 为业务数据，可以和具体的业务关联
 //        runtimeService.startProcessInstanceByKey(instanceKey,"busiKey",variables);
-        System.out.println("流程实例ID:"+instance.getId());
-        System.out.println("流程实例ID:"+instance.getProcessInstanceId());
-        System.out.println("流程定义ID:"+instance.getProcessDefinitionId());
+        System.out.println("流程实例ID:" + instance.getId());
+        System.out.println("流程实例ID:" + instance.getProcessInstanceId());
+        System.out.println("流程定义ID:" + instance.getProcessDefinitionId());
 
         //
         TaskQuery taskQuery = taskService.createTaskQuery();
         List<Task> list = taskQuery.processInstanceId(instance.getProcessInstanceId()).list();
-        System.out.println("根据流程ID查询任务："+list.size());
+        System.out.println("根据流程ID查询任务：" + list.size());
 
         //验证是否启动成功
         //通过查询正在运行的流程实例来判断
         ProcessInstanceQuery processInstanceQuery = runtimeService.createProcessInstanceQuery();
         //根据流程实例ID来查询
         List<ProcessInstance> runningList = processInstanceQuery.processInstanceId(instance.getProcessInstanceId()).list();
-        System.out.println("根据流程ID查询条数:"+runningList.size());
+        System.out.println("根据流程ID查询条数:" + runningList.size());
 
         // 返回流程ID
         return instance.getId();
@@ -107,11 +107,10 @@ public class LeaveController {
 
     /**
      * <p>查看任务</p>
-     * @author
      *
-     * http://127.0.0.1:8080/leave/showTask?jobNumber=A1001
+     * @author http://127.0.0.1:8080/leave/showTask?jobNumber=A1001
      */
-    @RequestMapping(value="/showTask")
+    @RequestMapping(value = "/showTask")
     public List<Map<String, String>> showTask(String jobNumber) {
         /*
          * 获取请求参数
@@ -119,15 +118,15 @@ public class LeaveController {
         TaskQuery taskQuery = taskService.createTaskQuery();
 
         List<Task> taskList = null;
-        if(jobNumber == null){
+        if (jobNumber == null) {
             //获取所有人的所有任务.
             taskList = taskQuery.list();
-        }else{
+        } else {
             //获取分配人的任务.
             taskList = taskQuery.taskAssignee(jobNumber).list();
         }
 
-        if(taskList == null || taskList.size() == 0) {
+        if (taskList == null || taskList.size() == 0) {
             System.out.println("查询任务列表为空！");
             return null;
         }
@@ -137,7 +136,7 @@ public class LeaveController {
          * 查询所有任务，并封装
          */
         List<Map<String, String>> resultList = new ArrayList<>();
-        for(Task task : taskList) {
+        for (Task task : taskList) {
             Map<String, String> map = new HashMap<>();
             map.put("taskId", task.getId());
             map.put("name", task.getName());
@@ -159,18 +158,19 @@ public class LeaveController {
 
     /**
      * 员工提交申请
-     * @author
-     * @return String 申请受理结果
      *
+     * @return String 申请受理结果
+     * <p>
      * 这里有一个参数很重要，在这里特别说明下，就是任务的下一个节点：
      * deptJobNumber的分配人，这里我们使用前端进行传递的方式，等同于前端有一个地方可以进行勾选人员进行处理，
      * 那么在实际项目中，这个参数可以后端调用一个该员工的部门经理的工号进行设置即可
-     *        访问测试下：
+     * 访问测试下：
      * http://127.0.0.1:8080/leave/employeeApply?taskId=451c14fa-e9d7-11ea-9e4c-9ab0362195b5&deptJobNumber=A1002&leaveDays=2&leaveReason=家里有事
-     *        这里的taskId就是上面查询出来的taskId。
+     * 这里的taskId就是上面查询出来的taskId。
+     * @author
      */
-    @RequestMapping(value="/employeeApply")
-    public String employeeApply(HttpServletRequest request){
+    @RequestMapping(value = "/employeeApply")
+    public String employeeApply(HttpServletRequest request) {
         System.out.println("--> 提交申请单信息");
         /*
          * 获取请求参数
@@ -186,8 +186,8 @@ public class LeaveController {
          *  查询任务
          */
         Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
-        if(task == null) {
-            System.out.println("任务ID:"+taskId+"查询到任务为空！");
+        if (task == null) {
+            System.out.println("任务ID:" + taskId + "查询到任务为空！");
             return "fail";
         }
 
@@ -200,6 +200,8 @@ public class LeaveController {
         variables.put("date", new Date());
         variables.put("reason", leaveReason);
         variables.put("deptJobNumber", deptJobNumber);
+        variables.put("tmpval", "员工发起的值");
+
         taskService.complete(task.getId(), variables);
         System.out.println("执行【员工申请】环节，流程推动到【部门审核】环节");
 
@@ -209,11 +211,58 @@ public class LeaveController {
         return "success";
     }
 
+
+    /**
+     * 审批
+     *
+     * @param request
+     * @return http://127.0.0.1:8080/leave/eptdApply?taskId=451c14fa-e9d7-11ea-9e4c-9ab0362195b5&flag=false
+     */
+    @RequestMapping(value = "/eptdApply")
+    public String eptdApply(HttpServletRequest request) {
+        System.out.println("--> 提交申请单信息");
+        /*
+         * 获取请求参数
+         */
+        String taskId = request.getParameter("taskId"); // 任务ID
+        //String jobNumber = request.getParameter("jobNumber"); // 工号
+//        String deptJobNumber = request.getParameter("deptJobNumber"); //上级
+//        String leaveDays = request.getParameter("leaveDays"); // 请假天数
+//        String leaveReason = request.getParameter("leaveReason"); // 请假原因
+        String flag = request.getParameter("flag"); // 是否同意
+
+
+        /*
+         *  查询任务
+         */
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        if (task == null) {
+            System.out.println("任务ID:" + taskId + "查询到任务为空！");
+            return "fail";
+        }
+
+
+        /*
+         * 参数传递并提交申请
+         */
+        Map<String, Object> variables = new HashMap<String, Object>();
+        variables.put("flag", flag);
+        variables.put("tmpvald", "部门审批的值");
+        taskService.complete(task.getId(), variables);
+        System.out.println("执行【部门审批】环节，审批结果" + flag);
+
+        /*
+         * 返回成功
+         */
+        return "success";
+    }
+
     /**
      * <p>输出图像</p>
-     * @param response 响应实体
-     * @param bpmnModel 图像对象
-     * @param flowIds 已执行的线集合
+     *
+     * @param response               响应实体
+     * @param bpmnModel              图像对象
+     * @param flowIds                已执行的线集合
      * @param executedActivityIdList void 已执行的节点ID集合
      * @author 悟纤【公众号SpringBoot】
      */
@@ -221,8 +270,8 @@ public class LeaveController {
         InputStream imageStream = null;
         ProcessDiagramGenerator processDiagramGenerator = new DefaultProcessDiagramGenerator();
         try {
-            if(CollectionUtils.isEmpty(flowIds)) flowIds = Arrays.asList();
-            if(CollectionUtils.isEmpty(executedActivityIdList)) executedActivityIdList = Arrays.asList();
+            if (CollectionUtils.isEmpty(flowIds)) flowIds = Arrays.asList();
+            if (CollectionUtils.isEmpty(executedActivityIdList)) executedActivityIdList = Arrays.asList();
             imageStream = processDiagramGenerator.generateDiagram(bpmnModel, executedActivityIdList, flowIds, "宋体", "微软雅黑", "黑体", true, "png");
             // 输出资源内容到相应对象
             byte[] b = new byte[1024];
@@ -231,10 +280,10 @@ public class LeaveController {
                 response.getOutputStream().write(b, 0, len);
             }
             response.getOutputStream().flush();
-        }catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally { // 流关闭
-            if(imageStream != null){
+            if (imageStream != null) {
                 try {
                     imageStream.close();
                 } catch (IOException e) {
@@ -245,14 +294,12 @@ public class LeaveController {
     }
 
     /**
-     *
      * @param modekey
-     * @param response
-     * http://127.0.0.1:8080/leave/showDeImg?modekey=leaveProcess
+     * @param response http://127.0.0.1:8080/leave/showDeImg?modekey=leaveProcess
      */
     @ResponseBody
-    @RequestMapping(value="/showDeImg")
-    public void showDeImg(String modekey, HttpServletResponse response){
+    @RequestMapping(value = "/showDeImg")
+    public void showDeImg(String modekey, HttpServletResponse response) {
         ProcessDefinitionQuery pdq = repositoryService.createProcessDefinitionQuery();
 //        List<org.activiti.engine.repository.ProcessDefinition> list = pdq.processDefinitionKey(modekey).asc().list();
 //        if(CollectionUtils.isEmpty(list)){
@@ -269,31 +316,33 @@ public class LeaveController {
 //        outputImg(response, bpmnModel, Arrays.asList(), Arrays.asList());
 
     }
+
     /**
      * <p>查看当前流程图</p>
+     *
      * @param instanceId 流程实例
-     * @param response void 响应
+     * @param response   void 响应
      * @author 悟纤【公众号SpringBoot】
      * http://127.0.0.1:8080/leave/showImg?instanceId=2b96782e-337a-11eb-a3e3-d2e29885766c
      */
     @ResponseBody
-    @RequestMapping(value="/showImg")
+    @RequestMapping(value = "/showImg")
     public void showImg(String instanceId, HttpServletResponse response) {
         /*
          * 参数校验
          */
-        System.out.println("查看完整流程图！流程实例ID:"+instanceId);
-        if(StringUtils.isBlank(instanceId)) return;
+        System.out.println("查看完整流程图！流程实例ID:" + instanceId);
+        if (StringUtils.isBlank(instanceId)) return;
 
 
         /*
          *  获取流程实例
          */
         HistoricProcessInstance processInstance = historyService.createHistoricProcessInstanceQuery().processInstanceId(instanceId).singleResult();
-        if(processInstance == null) {
+        if (processInstance == null) {
 
 //            repositoryService.createModelQuery().modelKey("")
-            System.out.println("流程实例ID:"+instanceId+"没查询到流程实例！");
+            System.out.println("流程实例ID:" + instanceId + "没查询到流程实例！");
             return;
         }
 
@@ -309,8 +358,8 @@ public class LeaveController {
         HistoricActivityInstanceQuery historyInstanceQuery = historyService.createHistoricActivityInstanceQuery().processInstanceId(instanceId);
         // 查询历史节点
         List<HistoricActivityInstance> historicActivityInstanceList = historyInstanceQuery.orderByHistoricActivityInstanceStartTime().asc().list();
-        if(historicActivityInstanceList == null || historicActivityInstanceList.size() == 0) {
-            System.out.println("流程实例ID:"+instanceId+"没有历史节点信息！");
+        if (historicActivityInstanceList == null || historicActivityInstanceList.size() == 0) {
+            System.out.println("流程实例ID:" + instanceId + "没有历史节点信息！");
             outputImg(response, bpmnModel, null, null);
             return;
         }

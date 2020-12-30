@@ -3,11 +3,35 @@
   <process id="leaveProcess" isClosed="false" isExecutable="true" name="请假流程" processType="None">
     <startEvent activiti:initiator="applyUserId" id="startEvent" name="开始事件"/>
     <userTask activiti:assignee="${jobNumber}" activiti:exclusive="true" id="applyTask" name="员工申请"/>
-    <userTask activiti:assignee="${deptJobNumber}" activiti:exclusive="true" id="deptApproveTask" name="部门领导审批"/>
+    <userTask activiti:assignee="${deptJobNumber}" activiti:exclusive="true" id="deptApproveTask" name="部门领导审批">
+      <extensionElements>
+        <activiti:taskListener delegateExpression="${createProcessor}" event="create"/>
+        <activiti:taskListener delegateExpression="${completeProcessor}" event="complete"/>
+        <activiti:taskListener delegateExpression="${assignmentProcessor}" event="assignment"/>
+        <activiti:taskListener delegateExpression="${deleteTaskProcessor}" event="delete"/>
+      </extensionElements>
+    </userTask>
     <endEvent id="endEvent" name="结束事件"/>
-    <sequenceFlow id="_5" sourceRef="deptApproveTask" targetRef="endEvent"/>
+    <sequenceFlow id="_5" sourceRef="deptApproveTask" targetRef="_3"/>
     <sequenceFlow id="_11" sourceRef="startEvent" targetRef="applyTask"/>
     <sequenceFlow id="_2" sourceRef="applyTask" targetRef="deptApproveTask"/>
+    <exclusiveGateway gatewayDirection="Unspecified" id="_3" name="ExclusiveGateway"/>
+    <sequenceFlow id="_4" sourceRef="_3" targetRef="endEvent">
+      <documentation id="_4_D_1">
+        <![CDATA[
+        ]]>
+      </documentation>
+      <conditionExpression xsi:type="tFormalExpression">
+        <![CDATA[
+        ]]>
+      </conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_6" sourceRef="_3" targetRef="applyTask">
+      <conditionExpression xsi:type="tFormalExpression">
+        <![CDATA[
+        ]]>
+      </conditionExpression>
+    </sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram documentation="background=#3C3F41;count=1;horizontalcount=1;orientation=0;width=842.4;height=1195.2;imageableWidth=832.4;imageableHeight=1185.2;imageableX=5.0;imageableY=5.0" id="Diagram-_1" name="New Diagram">
     <bpmndi:BPMNPlane bpmnElement="leaveProcess">
@@ -23,28 +47,54 @@
           <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="deptApproveTask" id="Shape-deptApproveTask">
-        <omgdc:Bounds height="55.0" width="85.0" x="305.0" y="220.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="endEvent" id="Shape-endEvent">
         <omgdc:Bounds height="32.0" width="32.0" x="495.0" y="230.0"/>
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_3" id="Shape-_3" isMarkerVisible="true">
+        <omgdc:Bounds height="32.0" width="32.0" x="434.0" y="294.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="deptApproveTask" id="Shape-deptApproveTask">
+        <omgdc:Bounds height="55.0" width="85.0" x="337.0" y="223.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="_2" id="BPMNEdge__2" sourceElement="applyTask" targetElement="deptApproveTask">
-        <omgdi:waypoint x="250.0" y="247.5"/>
-        <omgdi:waypoint x="305.0" y="247.5"/>
+        <omgdi:waypoint x="250.0" y="251.0"/>
+        <omgdi:waypoint x="285.0" y="251.0"/>
+        <omgdi:waypoint x="285.0" y="242.0"/>
+        <omgdi:waypoint x="337.0" y="251.0"/>
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_5" id="BPMNEdge__5" sourceElement="deptApproveTask" targetElement="endEvent">
-        <omgdi:waypoint x="390.0" y="247.5"/>
-        <omgdi:waypoint x="495.0" y="246.0"/>
+      <bpmndi:BPMNEdge bpmnElement="_4" id="BPMNEdge__4" sourceElement="_3" targetElement="endEvent">
+        <omgdi:waypoint x="466.0" y="310.0"/>
+        <omgdi:waypoint x="511.0" y="310.0"/>
+        <omgdi:waypoint x="511.0" y="262.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_5" id="BPMNEdge__5" sourceElement="deptApproveTask" targetElement="_3">
+        <omgdi:waypoint x="380.0" y="278.0"/>
+        <omgdi:waypoint x="380.0" y="310.0"/>
+        <omgdi:waypoint x="434.0" y="310.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_6" id="BPMNEdge__6" sourceElement="_3" targetElement="applyTask">
+        <omgdi:waypoint x="450.0" y="326.0"/>
+        <omgdi:waypoint x="450.0" y="375.0"/>
+        <omgdi:waypoint x="215.0" y="375.0"/>
+        <omgdi:waypoint x="207.5" y="275.0"/>
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>

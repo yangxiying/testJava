@@ -31,3 +31,4 @@ build/
 .vscode/
 
 springboot-web-demo/
+.DS_Store
