@@ -1,0 +1,7 @@
+#这里定义了和实体类对应的数据类型Author
+
+type Author {
+    id: Int!
+    name: String
+    photo: String
+}

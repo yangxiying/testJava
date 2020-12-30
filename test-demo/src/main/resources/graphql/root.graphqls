@@ -1,0 +1,8 @@
+#定义查询的方法
+#这里定义了Query操作findAuthorById，这里对应的是 AuthorQuery.findAuthorById(int id).另外如果在类型后面有！说明此参数/类型是非空的。
+
+typeQuery {
+
+    findAuthorById(id: Long!):Author
+
+}
